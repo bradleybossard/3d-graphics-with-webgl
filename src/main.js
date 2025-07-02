@@ -17,6 +17,7 @@ function initGL() {
 }
 
 function createShaders() {
+  /*
   var vs = "";
   vs += "attribute vec4 coords;";
   vs += "attribute float pointSize;";
@@ -45,7 +46,18 @@ function createShaders() {
   gl.attachShader(shaderProgram, fragmentShader);
   gl.linkProgram(shaderProgram);
   gl.useProgram(shaderProgram);
+  */
+
+  var vertexShader = getShader(gl, "shader-vs");
+  var fragmentShader = getShader(gl, "shader-fs");
+  
+  shaderProgram = gl.createProgram();
+  gl.attachShader(shaderProgram, vertexShader);
+  gl.attachShader(shaderProgram, fragmentShader);
+  gl.linkProgram(shaderProgram);
+  gl.useProgram(shaderProgram);
 }
+
 
 function createVertices() {
 
@@ -78,3 +90,47 @@ function draw() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0,4);
 }
+
+  /*
+   * https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Adding_2D_content_to_a_WebGL_context
+   */
+  function getShader(gl, id) {
+    var shaderScript, theSource, currentChild, shader;
+
+    shaderScript = document.getElementById(id);
+
+    if (!shaderScript) {
+      return null;
+    }
+
+    theSource = "";
+    currentChild = shaderScript.firstChild;
+
+    while (currentChild) {
+      if (currentChild.nodeType == currentChild.TEXT_NODE) {
+        theSource += currentChild.textContent;
+      }
+
+      currentChild = currentChild.nextSibling;
+    }
+    if (shaderScript.type == "x-shader/x-fragment") {
+      shader = gl.createShader(gl.FRAGMENT_SHADER);
+    } else if (shaderScript.type == "x-shader/x-vertex") {
+      shader = gl.createShader(gl.VERTEX_SHADER);
+    } else {
+      // Unknown shader type
+      return null;
+    }
+    gl.shaderSource(shader, theSource);
+
+// Compile the shader program
+    gl.compileShader(shader);
+
+// See if it compiled successfully
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      alert("An error occurred compiling the shaders: " + gl.getShaderInfoLog(shader));
+      return null;
+    }
+
+    return shader;
+  }
