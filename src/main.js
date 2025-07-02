@@ -3,6 +3,7 @@ import './style.css'
 var gl;
 var shaderProgram;
 var vertices; 
+var vertexCount = 5000;
 
 initGL();
 createShaders();
@@ -55,7 +56,7 @@ function createVertices() {
 
 function draw() {
   gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.drawArrays(gl.TRIANGLES, 0,4);
+  gl.drawArrays(gl.POINTS, 0, vertexCount);
 }
 
   /*
