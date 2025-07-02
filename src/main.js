@@ -25,7 +25,7 @@ function initGL() {
   var canvas = document.getElementById("canvas");
   gl = canvas.getContext("webgl");
   gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(0, 0.7, 0.7, 1);
+  gl.clearColor(0.0, 0.7, 0.7, 1.0);
 }
 
 function createShaders() {
@@ -58,10 +58,10 @@ function createVertices() {
   //gl.bindBuffer(gl.ARRAY_BUFFER, null);  
 
   var pointSize = gl.getAttribLocation(shaderProgram, "pointSize");
-  gl.vertexAttrib1f(pointSize, 5.0);
+  gl.vertexAttrib1f(pointSize, 5);
 
   var color = gl.getUniformLocation(shaderProgram, "color");
-  gl.uniform4f(color, 1.0, 0.0, 0.0, 1.0);
+  gl.uniform4f(color, 1, 0, 0, 1);
 
 }
 
